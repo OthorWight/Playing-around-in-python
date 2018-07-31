@@ -2,14 +2,13 @@ import threading
 import time
 from appJar import gui
 
-exit_flag = 0
-
-class myThread (threading.Thread):
-    def __init__(self, threadID, name, counter):
+class work (threading.Thread):
+    def __init__(self, threadID, name, counter, delay):
         threading.Thread.__init__(self)
         self.threadID = threadID
         self.name = name
         self.counter = counter
+        self.delay = delay
         self.paused = False
         self.pause_cond = threading.Condition(threading.Lock())
     def pause(self):
@@ -22,9 +21,9 @@ class myThread (threading.Thread):
     def run(self):
         print("Starting " + self.name)
         while self.counter:
-            time.sleep(1)
+            time.sleep(self.delay)
             while self.paused:
-                time.sleep(.25)
+                time.sleep(.1)
             print("%s: %s: %s" %(self.name, time.ctime(time.time()), self.counter))
             self.counter -= 1
         print("Exiting " + self.name)
@@ -32,11 +31,11 @@ class myThread (threading.Thread):
 def press(button):
     if button == "T1":
         global thread1
-        thread1 = myThread(1, "Thread-1", 5)
+        thread1 = work(1, "Worker-1", 5, 2)
         thread1.start()
     elif button == "T2":
         global thread2
-        thread2 = myThread(2, "Thread-2", 10)
+        thread2 = work(2, "Worker-2", 10, 1)
         thread2.start()
     elif button == "P1":
         thread1.pause()
