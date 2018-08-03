@@ -5,6 +5,7 @@ import time
 def run_game():
     def add_body(x,y):
         snake_bodies.insert(0,[x, y, 10, 10])
+        #snake_bodies.append(snake_bodies[-1]
 
     def move(direction):
         snake_bodies.insert(0,[snake_head_rect.x+2, snake_head_rect.y+2, 10, 10])
