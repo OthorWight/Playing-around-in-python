@@ -1,6 +1,7 @@
 import sys
 import pygame as pg
 import time
+import random
 
 def run_game():
     def add_body():
