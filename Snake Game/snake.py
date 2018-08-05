@@ -41,9 +41,9 @@ def run_game():
     def add_wall():
         wall_direction = random.randrange(0,2,1)
         if wall_direction == 0: #horizontal
-            x = random.randrange(15, 1185, 15)
+            x = random.randrange(15, 1170, 15)
             y = random.randrange(15, 735, 15)
-            w = random.randrange(x, 1185, 15)
+            w = random.randrange(15, 1185-x, 15)
             h = 15
             wall_collide = False
             for wall in walls:
@@ -51,21 +51,27 @@ def run_game():
                 if wl.colliderect(wall):
                     wall_collide = True
             if not wall_collide:
-                walls.append([x+15,y,w-15,h])
+                if w-15 < 30:
+                    add_wall()
+                else:
+                    walls.append([x+15,y,w-15,h])
             else:
                 add_wall()
         if wall_direction == 1: #vertical
             x = random.randrange(15, 1185, 15)
-            y = random.randrange(15, 735, 15)
+            y = random.randrange(15, 720, 15)
             w = 15
-            h = random.randrange(y, 735, 15)
+            h = random.randrange(15, 735-y, 15)
             wall_collide = False
             for wall in walls:
                 wl = pg.Rect(x,y,w,h)
                 if wl.colliderect((wall)):
                     wall_collide = True
             if not wall_collide:
-                walls.append([x,y+15,w,h-15])
+                if h-15 < 30:
+                    add_wall()
+                else:
+                    walls.append([x,y+15,w,h-15])
             else:
                 add_wall()
 
