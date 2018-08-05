@@ -33,16 +33,58 @@ def run_game():
                 delay -+ 0.01
                 if food_location == []:
                     level += 1
+                    add_wall()
                     for l in range(level):
-                        place_food()
+                        add_food()
         return level, delay
+
+    def add_wall():
+        wall_direction = random.randrange(0,2,1)
+        if wall_direction == 0: #horizontal
+            x = random.randrange(15, 1185, 15)
+            y = random.randrange(15, 735, 15)
+            w = random.randrange(x, 1185, 15)
+            h = 15
+            wall_collide = False
+            for wall in walls:
+                wl = pg.Rect(x,y,w,h)
+                if wl.colliderect(wall):
+                    wall_collide = True
+            if not wall_collide:
+                walls.append([x+15,y,w-15,h])
+            else:
+                add_wall()
+        if wall_direction == 1: #vertical
+            x = random.randrange(15, 1185, 15)
+            y = random.randrange(15, 735, 15)
+            w = 15
+            h = random.randrange(y, 735, 15)
+            wall_collide = False
+            for wall in walls:
+                wl = pg.Rect(x,y,w,h)
+                if wl.colliderect((wall)):
+                    wall_collide = True
+            if not wall_collide:
+                walls.append([x,y+15,w,h-15])
+            else:
+                add_wall()
+
+    def add_food():
+        x = random.randrange(15,1185,15) + 8
+        y = random.randrange(15,735,15) + 8
+        wall_collide = False
+        for wall in walls:
+            wl = pg.Rect(wall)
+            if wl.collidepoint(x, y):
+                wall_collide = True
+        if not wall_collide:
+            food_location.append([x, y])
+        else:
+            add_food()
 
     def add_body():
         snake_bodies.append(snake_bodies[-1])
-
-    def place_food():
-        food_location.append([random.randrange(15,1185,15) + 8, random.randrange(15,735,15) + 8])
-
+        
 
     pg.init()
     screen = pg.display.set_mode((1200, 750))
@@ -62,7 +104,7 @@ def run_game():
 
     current_time = time.time()
     direction = "RIGHT"
-    delay = 1.0
+    delay = 0.5
     level = 1
 
     # Main Loop
@@ -97,7 +139,9 @@ def run_game():
                 elif event.key == pg.K_1:
                     add_body()
                 elif event.key == pg.K_2:
-                    place_food()
+                    add_food()
+                elif event.key == pg.K_3:
+                    add_wall()
 
         # Refresh
         pg.display.flip()
