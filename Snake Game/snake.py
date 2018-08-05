@@ -30,7 +30,7 @@ def run_game():
                 print("Ate Food")
                 add_body()
                 food_location.remove(food)
-                delay -+ 0.01
+                delay -= 0.01
                 if food_location == []:
                     level += 1
                     add_wall()
@@ -90,7 +90,6 @@ def run_game():
 
     def add_body():
         snake_bodies.append(snake_bodies[-1])
-        
 
     pg.init()
     screen = pg.display.set_mode((1200, 750))
