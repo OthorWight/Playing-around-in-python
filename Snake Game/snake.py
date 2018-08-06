@@ -5,7 +5,7 @@ import random
 
 def run_game():
 
-    def move(direction,level,delay):
+    def move(direction,level,delay,score):
         snake_bodies.insert(0,[snake_head_rect.x+3, snake_head_rect.y+3, 10, 10])
         del snake_bodies[-1]
         if direction == "RIGHT":
@@ -30,13 +30,14 @@ def run_game():
                 print("Ate Food")
                 add_body()
                 food_location.remove(food)
+                score += 1
                 delay -= 0.01
                 if food_location == []:
                     level += 1
                     add_wall()
                     for l in range(level):
                         add_food()
-        return level, delay
+        return level, delay, score
 
     def add_wall():
         wall_direction = random.randrange(0,2,1)
@@ -98,6 +99,8 @@ def run_game():
     bg_color = (230,230,230)
     screen.fill(bg_color)
 
+    myfont = pg.font.SysFont("monospace", 13)
+
     #set up screen objects
     #(x, y, w, h)
     snake_head_rect = pg.Rect(600, 375, 15, 15)
@@ -111,6 +114,7 @@ def run_game():
     direction = "RIGHT"
     delay = 0.5
     level = 1
+    score = 0
 
     # Main Loop
     while True:
@@ -167,7 +171,9 @@ def run_game():
             pg.draw.rect(screen, (0, 0, 0),pg.Rect(x, y, w, h))
         if time.time() - current_time >= delay:
             current_time = time.time()
-            current_level, current_delay = move(direction, level, delay)
-            level, delay = current_level, current_delay
+            current_level, current_delay, current_score = move(direction, level, delay, score)
+            level, delay, score = current_level, current_delay, current_score
+        scoretext = myfont.render("Score: " + str(score) + "        Level: " + str(level),1,(250,250,250))
+        screen.blit(scoretext, (1,1))
 
 run_game()
