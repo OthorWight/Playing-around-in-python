@@ -31,7 +31,7 @@ def run_game():
                 add_body()
                 food_location.remove(food)
                 score += 1
-                delay -= 0.01
+                delay -= delay/50
                 if food_location == []:
                     level += 1
                     add_wall()
@@ -99,13 +99,17 @@ def run_game():
     bg_color = (230,230,230)
     screen.fill(bg_color)
 
-    myfont = pg.font.SysFont("monospace", 13)
+    myfont = pg.font.SysFont("monospace", 13, 1)
 
     #set up screen objects
     #(x, y, w, h)
     snake_head_rect = pg.Rect(600, 375, 15, 15)
     snake_bodies = [(snake_head_rect.x+3, snake_head_rect.y+3,10,10)]
+    for l in range(9):
+        add_body()
     walls = [(0, 0, 1200, 15), (1185, 0, 15, 750), (0, 0, 15, 750), (0, 735, 1200, 15)]
+    for l in range(5):
+        add_wall()
     food_location = [(random.randrange(15,1185,15) + 8, random.randrange(15,735,15) + 8)]
 
     color = (100,100,100)
