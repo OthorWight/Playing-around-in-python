@@ -1,4 +1,5 @@
-current_number, next_number = 0,1
-for x in range (1, 10):
-    print(current_number)
-    current_number, next_number = next_number, current_number + next_number
+"""Calculate Fibonacci Numbers"""
+CURRENT_NUMBER, NEXT_NUMBER = 0, 1
+for x in range(1, 10):
+    print(CURRENT_NUMBER)
+    CURRENT_NUMBER, NEXT_NUMBER = NEXT_NUMBER, CURRENT_NUMBER + NEXT_NUMBER
