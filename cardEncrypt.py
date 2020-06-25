@@ -2,7 +2,7 @@ import math
 import hashlib
 
 
-print (hashlib.sha1(b"salt" + b"1").hexdigest())
+print(hashlib.sha1(b"salt" + b"1").hexdigest())
 
 #i = pow(5915587277,-1)
 #def cardEncrypt(n):
